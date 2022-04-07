@@ -3,6 +3,8 @@ use regex::Regex;
 use std::rc::Rc;
 use thiserror::Error;
 
+pub mod parsing;
+
 static RE_PAREN: Lazy<Regex> =
     Lazy::new(|| Regex::new(r"\((.*)\)").expect("Creating parenthesis regex"));
 
@@ -43,28 +45,6 @@ impl Ope {
 impl std::str::FromStr for Ope {
     type Err = Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        // Parse the expressions inside parentheses first
-        dbg!(s);
-        let paren_exprs = dbg!(RE_PAREN
-            .find_iter(s)
-            //.map(|cap| Ope::from_str(&cap[1]))
-            .collect::<Vec<_>>());
-
-        if paren_exprs.is_empty() {
-            let tokens: Vec<_> = s.split_whitespace().collect();
-            println!("hello");
-
-            // find multiplication or divisions
-            tokens
-                .iter()
-                .enumerate()
-                .filter_map(|(i, &c)| if c == "/" || c == "*" { Some(i) } else { None })
-                .for_each(|i| {
-                    // Find what are the things being operated
-                    println!("{:?}, {:?}", tokens[i - 1], tokens[i + 1]);
-                });
-        }
-
         todo!()
     }
 }
